@@ -7,7 +7,9 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Attributes")]
-    public float speed = 10f;
+    public float walkSpeed = 10;
+    public float runSpeed = 20;
+    public float speed;
     public float acceleration = 10f;
 
     [Header("Dashing")]
@@ -30,19 +32,15 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         ch = GetComponent<CharacterController>();
-        // prefer the main camera, fall back to any Camera in the scene
-        camera = Camera.main;
-        if (camera == null)
-        {
-            camera = FindFirstObjectByType<Camera>();
-        }
+        camera = FindFirstObjectByType<Camera>();
+        speed = walkSpeed;
     }
 
     // Update is called once per frame
     void Update()
     {
         var lookPoint = LookTowardsMouse(out targetLookPosition);
-
+        // Looks in the direction of the mouse point or position
         if (lookPoint)
         {
             targetLookPosition.y = transform.position.y;
@@ -58,11 +56,22 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
+        // DASHING
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
         {
 
             Vector3 dashDirection = direction.magnitude >= 0.1f ? direction : transform.forward;
             StartCoroutine(Dash(dashDirection));
+        }
+
+        // SWITCHING BETWEEN RUNNING AND WALKING
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            speed = runSpeed;
+        }
+        else if (Input.GetKeyUp(KeyCode.Space))
+        {
+            speed = walkSpeed;
         }
 
         targetVelocity = direction * speed;
