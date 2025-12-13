@@ -133,7 +133,7 @@ Transform:
   m_GameObject: {fileID: 6886751111580652480}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.34, z: 0.706}
+  m_LocalPosition: {x: 0, y: 0.34, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -280,6 +280,7 @@ GameObject:
   - component: {fileID: 4978941057495989757}
   - component: {fileID: 6782458112454151763}
   - component: {fileID: 4076387613413884141}
+  - component: {fileID: 5375053258647870820}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -462,6 +463,20 @@ MonoBehaviour:
   maxEnergy: 10
   increaseRate: 2
   slider: {fileID: 0}
+--- !u!114 &5375053258647870820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8640390454849124815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b7c52748451a14793af0d7ed1f6a11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 6616243219509900770, guid: 41f1b3264d1a20148a280629b3a2699d, type: 3}
+  spawnPoint: {fileID: 4549031164788608580}
 --- !u!1 &9202307538053916335
 GameObject:
   m_ObjectHideFlags: 0
