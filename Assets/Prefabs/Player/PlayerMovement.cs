@@ -22,10 +22,14 @@ public class PlayerMovement : MonoBehaviour
     [Header("Components & Gameobjects")]
     public CharacterController ch;
     public Camera camera;
+    public PlayerHealth playerHealth;
+    public PlayerEnergy playerEnergy;
+    public bool energyInUse = false;
 
     private Vector3 targetLookPosition;
     private Vector3 targetVelocity;
     private Vector3 velocity;
+    private float energy;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -34,11 +38,17 @@ public class PlayerMovement : MonoBehaviour
         ch = GetComponent<CharacterController>();
         camera = FindFirstObjectByType<Camera>();
         speed = walkSpeed;
+
+        playerEnergy = GetComponent<PlayerEnergy>();
+        playerHealth = GetComponent<PlayerHealth>();
+        energy = playerEnergy.GetEnergy();
     }
 
     // Update is called once per frame
     void Update()
     {
+        energy = playerEnergy.GetEnergy();
+
         var lookPoint = LookTowardsMouse(out targetLookPosition);
         // Looks in the direction of the mouse point or position
         if (lookPoint)
@@ -57,21 +67,38 @@ public class PlayerMovement : MonoBehaviour
 
 
         // DASHING
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        if (Input.GetKey(KeyCode.LeftShift) && canDash)
         {
-
-            Vector3 dashDirection = direction.magnitude >= 0.1f ? direction : transform.forward;
-            StartCoroutine(Dash(dashDirection));
+            // Can only perfom dash if energy is enough
+            if (playerEnergy.GetEnergy() >= 5)
+            {
+                playerEnergy.decreaseEnergy(5);
+                Vector3 dashDirection = direction.magnitude >= 0.1f ? direction : transform.forward;
+                StartCoroutine(Dash(dashDirection));
+            }
         }
+
 
         // SWITCHING BETWEEN RUNNING AND WALKING
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space)) // holding
         {
-            speed = runSpeed;
+            if (energy > 0)
+            {
+                // can run
+                speed = runSpeed;
+                energyInUse = true;
+            }
+            else
+            {
+                // energy drained WHILE holding
+                speed = walkSpeed;
+                energyInUse = false;
+            }
         }
-        else if (Input.GetKeyUp(KeyCode.Space))
+        else // not holding Space
         {
             speed = walkSpeed;
+            energyInUse = false;
         }
 
         targetVelocity = direction * speed;
@@ -80,6 +107,16 @@ public class PlayerMovement : MonoBehaviour
         velocity = Vector3.MoveTowards(velocity, targetVelocity, acceleration * Time.deltaTime);
 
         ch.Move(velocity * Time.deltaTime);
+        // playerEnergy.increaseEnergy();
+
+        if (energyInUse)
+        {
+            playerEnergy.decreaseEnergy(0.1f);
+        }
+        else
+        {
+            playerEnergy.increaseEnergy();
+        }
     }
 
     bool LookTowardsMouse(out Vector3 point)
@@ -109,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
 
         while (Time.time < startTime + dashTime)
         {
-            ch.Move(direction * speed * Time.deltaTime);
+            ch.Move(direction * dashSpeed * Time.deltaTime);
             yield return null;
         }
 
