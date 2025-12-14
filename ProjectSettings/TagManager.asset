@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PlayerHealth
   - Parcel
+  - Map
   layers:
   - Default
   - TransparentFX
