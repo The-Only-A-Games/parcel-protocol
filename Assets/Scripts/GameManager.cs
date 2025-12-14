@@ -2,65 +2,122 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject parcel;
+    public GameObject player;
+
+
+    [Header("Pointer Attributes")]
     public Collider mapCollider;
-
-    public Transform player;
-    public Transform packageTarget;
+    public Transform targetPoint;
     public RectTransform arrowUI;
+    private GameObject parcel;
+    private GameObject delivery;
 
 
-    // Parcel Game Objects
-    private GameObject fragileParcel;
+    [Header("Parcel Types")]
+    public GameObject fragileParcel;
 
-    // Delivery Point Game Object
-    private GameObject deliveryPoint;
-
+    [Header("Delivery Point types")]
+    public GameObject deliveryPoint;
 
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        fragileParcel = Resources.Load<GameObject>("Prefabs/Packages/Fragile/Fragile");
-        deliveryPoint = Resources.Load<GameObject>("Prefabs");
-        Spawn();
-        packageTarget = parcel.transform;
 
-        if (fragileParcel != null)
-        {
-            Debug.Log("Found yeyyy");
-        }
+        player = GameObject.FindGameObjectWithTag("Player");
+        // Getting game objects
+        fragileParcel = Resources.Load<GameObject>("Prefabs/Packages/Fragile/Fragile");
+        deliveryPoint = Resources.Load<GameObject>("Prefabs/DeliveryPoints/DeliveryPoint");
+
+        // Initial spawn
+        Spawn(fragileParcel);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 direction = packageTarget.position - player.position;
+        // Points at Target Point
+        Pointer(targetPoint);
 
-        // Ignore vertical difference
-        direction.y = 0;
+        int findParcel = GameObject.FindGameObjectsWithTag("Parcel").Length;
+        int findDeliveryPoints = GameObject.FindGameObjectsWithTag("DeliveryPoint").Length;
+        bool parcelCollected = player.GetComponent<PickUp>().collected;
 
-        float angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+        // If both parcel and delivery points exist in the scene
+        if (findParcel > 0 && findDeliveryPoints > 0)
+        {
+            if (parcelCollected)
+            {
+                targetPoint = delivery.transform;
+            }
+            else
+            {
+                targetPoint = parcel.transform;
+            }
 
-        arrowUI.rotation = Quaternion.Euler(0, 0, -angle);
+        }
+        else if (findParcel <= 0) // If the parcel does not exist in the scene
+        {
+            Spawn(fragileParcel);
+
+        }
+        else if (findParcel > 0 && parcelCollected && findDeliveryPoints <= 0) // If parcel is collected and delivery point does not exist spawn the delivery point
+        {
+            Spawn(deliveryPoint);
+        }
+
+
+
     }
 
-    void Spawn()
+    // Points to parkages or delivery points
+    void Pointer(Transform target)
+    {
+        if (target != null)
+        {
+            Vector3 direction = target.position - player.transform.position;
+
+            // Ignore vertical difference
+            direction.y = 0;
+
+            float angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+
+            arrowUI.rotation = Quaternion.Euler(0, 0, -angle);
+        }
+    }
+
+    // Gets a random position on the map
+    Vector3 SpawnPosition()
     {
         Bounds bounds = mapCollider.bounds;
 
-        Vector3 randomPos = new Vector3(
+        return new Vector3(
             Random.Range(bounds.min.x, bounds.max.x),
             bounds.max.y + 10f,
             Random.Range(bounds.min.z, bounds.max.z)
         );
+    }
 
-        if (Physics.Raycast(randomPos, Vector3.down, out RaycastHit hit))
+    // Spawns gameobjects and sets their targetPoint
+    void Spawn(GameObject gameObject)
+    {
+        if (Physics.Raycast(SpawnPosition(), Vector3.down, out RaycastHit hit))
         {
             Vector3 spawnPos = hit.point + Vector3.up * 0.5f; // OFFSET
 
-            parcel = Instantiate(parcel, spawnPos, Quaternion.identity);
+
+
+            if (gameObject.CompareTag("Parcel"))
+            {
+                parcel = Instantiate(gameObject, spawnPos, Quaternion.identity);
+            }
+
+            if (gameObject.CompareTag("DeliveryPoint"))
+            {
+                delivery = Instantiate(gameObject, spawnPos, Quaternion.identity);
+            }
+            targetPoint = parcel.transform;
         }
     }
 }

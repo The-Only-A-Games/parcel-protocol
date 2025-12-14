@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class DeliveryPoint : MonoBehaviour
 {
+    public float deliveryTime = 4;
+    private float elapsTime = 0f;
+
+
     public Transform parcelPosition;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -12,8 +16,25 @@ public class DeliveryPoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Check if parcel exists
+        Transform parcel = transform.Find("ParcelPosition/Fragile(Clone)");
 
+        if (parcel != null)
+        {
+            elapsTime += Time.deltaTime;
+        }
+        else
+        {
+            elapsTime = 0f;
+        }
+
+        // Deliver parcel when delivery is reached
+        if (elapsTime >= deliveryTime)
+        {
+            Destroy(gameObject);
+        }
     }
+
 
 
     void OnTriggerEnter(Collider other)
@@ -22,6 +43,8 @@ public class DeliveryPoint : MonoBehaviour
         {
             Transform parcel = other.transform.Find("ParcelSpawn/Fragile(Clone)");
 
+            // Setting pickup to false
+            other.gameObject.GetComponent<PickUp>().SetCollected(false);
 
             Debug.Log(parcel);
             if (parcel != null)
