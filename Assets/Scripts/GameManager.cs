@@ -10,13 +10,27 @@ public class GameManager : MonoBehaviour
     public RectTransform arrowUI;
 
 
+    // Parcel Game Objects
+    private GameObject fragileParcel;
+
+    // Delivery Point Game Object
+    private GameObject deliveryPoint;
+
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        fragileParcel = Resources.Load<GameObject>("Prefabs/Packages/Fragile/Fragile");
+        deliveryPoint = Resources.Load<GameObject>("Prefabs");
         Spawn();
         packageTarget = parcel.transform;
+
+        if (fragileParcel != null)
+        {
+            Debug.Log("Found yeyyy");
+        }
     }
 
     // Update is called once per frame

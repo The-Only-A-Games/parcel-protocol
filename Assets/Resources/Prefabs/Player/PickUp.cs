@@ -24,7 +24,11 @@ public class PickUp : MonoBehaviour
 
             if (parcel != null)
             {
+                Collider parcelCollider = parcel.GetComponent<Collider>();
+
+                // if (parcelCollider != null) parcelCollider.isTrigger = false;
                 parcel.transform.SetParent(parcelSpawnPoint);
+                other.transform.SetParent(parcelSpawnPoint.transform, true);
 
                 parcel.transform.localPosition = Vector3.zero;
                 parcel.transform.localRotation = Quaternion.identity;

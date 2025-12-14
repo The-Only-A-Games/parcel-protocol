@@ -1,0 +1,40 @@
+using UnityEngine;
+
+public class DeliveryPoint : MonoBehaviour
+{
+    public Transform parcelPosition;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Transform parcel = other.transform.Find("ParcelSpawn/Fragile(Clone)");
+
+
+            Debug.Log(parcel);
+            if (parcel != null)
+            {
+                // parcel.transform.SetParent(parcelPosition);
+
+                // parcel.transform.localPosition = Vector3.zero;
+                // parcel.transform.localRotation = Quaternion.identity;
+
+                parcel.SetParent(parcelPosition);
+                parcel.localPosition = Vector3.zero;
+                parcel.localRotation = Quaternion.identity;
+            }
+        }
+    }
+}
