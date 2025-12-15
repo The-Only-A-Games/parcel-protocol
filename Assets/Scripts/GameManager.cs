@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -13,8 +14,11 @@ public class GameManager : MonoBehaviour
     private GameObject delivery;
 
 
+
     [Header("Parcel Types")]
     public GameObject fragileParcel;
+    public GameObject heavyParcel;
+    public GameObject standardParcel;
 
     [Header("Delivery Point types")]
     public GameObject deliveryPoint;
@@ -28,10 +32,12 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         // Getting game objects
         fragileParcel = Resources.Load<GameObject>("Prefabs/Packages/Fragile/Fragile");
+        heavyParcel = Resources.Load<GameObject>("Prefabs/Packages/Heavy/Heavy");
+        standardParcel = Resources.Load<GameObject>("Prefabs/Packages/Standard/Standard");
         deliveryPoint = Resources.Load<GameObject>("Prefabs/DeliveryPoints/DeliveryPoint");
 
         // Initial spawn
-        Spawn(fragileParcel);
+        Spawn(ChooseParcel());
     }
 
     // Update is called once per frame
@@ -63,7 +69,7 @@ public class GameManager : MonoBehaviour
             {
                 Destroy(delivery);
             }
-            Spawn(fragileParcel);
+            Spawn(ChooseParcel());
         }
         else if (findParcel > 0 && parcelCollected && findDeliveryPoints <= 0) // If parcel is collected and delivery point does not exist spawn the delivery point
         {
@@ -109,18 +115,34 @@ public class GameManager : MonoBehaviour
         {
             Vector3 spawnPos = hit.point + Vector3.up * 0.5f; // OFFSET
 
-
-
             if (gameObject.CompareTag("Parcel"))
             {
                 parcel = Instantiate(gameObject, spawnPos, Quaternion.identity);
+                // parcel.name.Replace("(Clone)", "").Trim();
             }
 
             if (gameObject.CompareTag("DeliveryPoint"))
             {
                 delivery = Instantiate(gameObject, spawnPos, Quaternion.identity);
+                delivery.GetComponent<DeliveryPoint>().setParcelName(parcel.name);
+                // delivery.name.Replace("(Clone)", "").Trim();
             }
             targetPoint = parcel.transform;
         }
+    }
+
+
+    // Randomly chooses wich package to spawn
+    GameObject ChooseParcel()
+    {
+        int randomChoice = Random.Range(0, 3);
+
+        return randomChoice switch
+        {
+            0 => standardParcel,
+            1 => fragileParcel,
+            2 => heavyParcel,
+            _ => standardParcel,
+        };
     }
 }

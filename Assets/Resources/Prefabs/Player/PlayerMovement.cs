@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public float runSpeed = 20;
     public float speed;
     public float acceleration = 10f;
+    private float speedEffect = 0;
 
     [Header("Dashing")]
     public float dashSpeed = 20f;
@@ -51,7 +52,12 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        parcel = GameObject.FindGameObjectWithTag("Parcel");
+        // Only try to find the parcel when its null
+        if (parcel == null)
+        {
+            parcel = GameObject.FindGameObjectWithTag("Parcel");
+        }
+
         energy = playerEnergy.GetEnergy();
 
         var lookPoint = LookTowardsMouse(out targetLookPosition);
@@ -106,7 +112,8 @@ public class PlayerMovement : MonoBehaviour
             energyInUse = false;
         }
 
-        targetVelocity = direction * speed;
+        float newSpeed = speed - speedEffect;
+        targetVelocity = direction * newSpeed;
 
         // Smoothing out the direction change
         velocity = Vector3.MoveTowards(velocity, targetVelocity, acceleration * Time.deltaTime);
@@ -165,5 +172,12 @@ public class PlayerMovement : MonoBehaviour
 
         yield return new WaitForSeconds(dashCoolDown);
         canDash = true;
+    }
+
+
+    // Speed effect, used when heavy package is picked up
+    public void setSpeedEffect(float amount)
+    {
+        speedEffect = amount;
     }
 }

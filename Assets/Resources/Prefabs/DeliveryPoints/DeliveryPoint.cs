@@ -7,6 +7,8 @@ public class DeliveryPoint : MonoBehaviour
 
 
     public Transform parcelPosition;
+    public Transform parcel;
+    private string parcelName;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -16,9 +18,6 @@ public class DeliveryPoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Check if parcel exists
-        Transform parcel = transform.Find("ParcelPosition/Fragile(Clone)");
-
         if (parcel != null)
         {
             elapsTime += Time.deltaTime;
@@ -41,7 +40,7 @@ public class DeliveryPoint : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Transform parcel = other.transform.Find("ParcelSpawn/Fragile(Clone)");
+            parcel = other.transform.Find("ParcelSpawn/" + parcelName);
 
             // Setting pickup to false
             other.gameObject.GetComponent<PickUp>().SetCollected(false);
@@ -59,5 +58,10 @@ public class DeliveryPoint : MonoBehaviour
                 parcel.localRotation = Quaternion.identity;
             }
         }
+    }
+
+    public void setParcelName(string name)
+    {
+        parcelName = name;
     }
 }
