@@ -22,7 +22,9 @@ public class PlayerShoot : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
+            GameObject bullet = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
+            bullet.GetComponent<ProjectileDamage>().SetTag("Enemies");
+            bullet.GetComponent<MoveProjectile>().SetShoot(true);
         }
     }
 }

@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
             if (parcelCollected)
             {
                 targetPoint = delivery.transform;
+                delivery.GetComponent<DeliveryPoint>().setDelivered(false);
             }
             else
             {

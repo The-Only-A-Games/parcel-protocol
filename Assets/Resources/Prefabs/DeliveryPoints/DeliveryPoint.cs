@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class DeliveryPoint : MonoBehaviour
 {
-    public float deliveryTime = 4;
+    public float deliveryTime = 2;
     private float elapsTime = 0f;
+    private bool delivered = false;
 
 
     public Transform parcelPosition;
@@ -18,7 +19,7 @@ public class DeliveryPoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (parcel != null)
+        if (delivered)
         {
             elapsTime += Time.deltaTime;
         }
@@ -56,6 +57,7 @@ public class DeliveryPoint : MonoBehaviour
                 parcel.SetParent(parcelPosition);
                 parcel.localPosition = Vector3.zero;
                 parcel.localRotation = Quaternion.identity;
+                delivered = true;
             }
         }
     }
@@ -63,5 +65,10 @@ public class DeliveryPoint : MonoBehaviour
     public void setParcelName(string name)
     {
         parcelName = name;
+    }
+
+    public void setDelivered(bool value)
+    {
+        delivered = value;
     }
 }

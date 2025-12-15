@@ -168,6 +168,8 @@ MonoBehaviour:
   targetPoint: {fileID: 0}
   arrowUI: {fileID: 1426279882}
   fragileParcel: {fileID: 0}
+  heavyParcel: {fileID: 0}
+  standardParcel: {fileID: 0}
   deliveryPoint: {fileID: 0}
 --- !u!1 &115437789
 GameObject:
