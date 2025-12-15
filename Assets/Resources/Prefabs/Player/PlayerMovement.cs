@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[RequireComponent(typeof(PickUp))]
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Attributes")]
@@ -25,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     public PlayerHealth playerHealth;
     public PlayerEnergy playerEnergy;
     public bool energyInUse = false;
+    private GameObject parcel;
 
     private Vector3 targetLookPosition;
     private Vector3 targetVelocity;
@@ -42,11 +44,14 @@ public class PlayerMovement : MonoBehaviour
         playerEnergy = GetComponent<PlayerEnergy>();
         playerHealth = GetComponent<PlayerHealth>();
         energy = playerEnergy.GetEnergy();
+
+        parcel = GameObject.FindGameObjectWithTag("Parcel");
     }
 
     // Update is called once per frame
     void Update()
     {
+        parcel = GameObject.FindGameObjectWithTag("Parcel");
         energy = playerEnergy.GetEnergy();
 
         var lookPoint = LookTowardsMouse(out targetLookPosition);
@@ -112,6 +117,14 @@ public class PlayerMovement : MonoBehaviour
         if (energyInUse)
         {
             playerEnergy.decreaseEnergy(0.1f);
+
+            // If affect can be perfomed
+            if (parcel != null)
+            {
+                bool performEffect = parcel.GetComponent<ParcelEffect>().Type == "fragile" && GetComponent<PickUp>().collected;
+
+                if (performEffect) parcel.GetComponent<ParcelEffect>().ApplyEffect();
+            }
         }
         else
         {

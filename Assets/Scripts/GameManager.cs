@@ -59,8 +59,11 @@ public class GameManager : MonoBehaviour
         }
         else if (findParcel <= 0) // If the parcel does not exist in the scene
         {
+            if (delivery != null)
+            {
+                Destroy(delivery);
+            }
             Spawn(fragileParcel);
-
         }
         else if (findParcel > 0 && parcelCollected && findDeliveryPoints <= 0) // If parcel is collected and delivery point does not exist spawn the delivery point
         {

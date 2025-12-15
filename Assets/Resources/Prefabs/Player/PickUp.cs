@@ -15,7 +15,7 @@ public class PickUp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (GameObject.FindGameObjectsWithTag("Parcel").Length < 0) collected = false;
     }
 
     void OnTriggerEnter(Collider other)

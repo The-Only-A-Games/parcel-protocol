@@ -1,16 +1,20 @@
+using System;
 using UnityEngine;
 
-public class FragilePackage : MonoBehaviour
+public class FragilePackage : ParcelEffect
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public override string Type => "fragile";
+
+
     void Start()
     {
-        
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void ApplyEffect()
     {
-        
+        GetComponent<PackageHealth>().TakeDamage(0.1f);
+
+        if (GetComponent<PackageHealth>() == null) player.GetComponent<PickUp>().collected = false;
     }
 }
