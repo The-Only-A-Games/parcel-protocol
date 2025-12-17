@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
     public float speed;
     public float acceleration = 10f;
     private float speedEffect = 0;
+    public float gravity = 9.8f;
+    private float yVelocity;
 
     [Header("Dashing")]
     public float dashSpeed = 20f;
@@ -52,6 +54,11 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Reset downward velocity when grounded
+        if (ch.isGrounded && yVelocity < 0)
+            yVelocity = -2f;
+
+
         // Only try to find the parcel when its null
         if (parcel == null)
         {
@@ -111,6 +118,10 @@ public class PlayerMovement : MonoBehaviour
             speed = walkSpeed;
             energyInUse = false;
         }
+
+        // Applying gravity
+        yVelocity -= gravity * Time.deltaTime;
+        direction.y = yVelocity;
 
         float newSpeed = speed - speedEffect;
         targetVelocity = direction * newSpeed;
