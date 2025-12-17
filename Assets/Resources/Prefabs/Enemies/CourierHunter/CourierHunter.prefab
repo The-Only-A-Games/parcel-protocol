@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d641ae6a436d2b419c79b1fc267e6db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootingDistance: 25
+  shootingDistance: 10
   fireRate: 2
   muzzle: {fileID: 6777232351057020680}
   projectile: {fileID: 0}

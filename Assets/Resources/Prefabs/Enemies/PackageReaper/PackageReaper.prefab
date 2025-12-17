@@ -290,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b9d81b7a31bb2a4692bfc17a970231a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootingDistance: 25
+  shootingDistance: 10
   fireRate: 2
   muzzle: {fileID: 1300097341518700468}
   projectile: {fileID: 6616243219509900770, guid: 41f1b3264d1a20148a280629b3a2699d, type: 3}
@@ -310,7 +310,7 @@ MonoBehaviour:
   player: {fileID: 0}
   parcel: {fileID: 0}
   updateRate: 0.2
-  stopDistance: 3
+  stopDistance: 5
 --- !u!114 &6199293720708585768
 MonoBehaviour:
   m_ObjectHideFlags: 0

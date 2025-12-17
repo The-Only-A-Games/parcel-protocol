@@ -13,7 +13,11 @@ public class GameManager : MonoBehaviour
     private GameObject parcel;
     private GameObject delivery;
 
-
+    [Header("Spawn Conditions")]
+    public int enemySpawnLimit = 10;
+    public float enemySpawnRate = 3f;
+    private int currentEnemies = 0;
+    private float nextEnemySpawnTime;
 
     [Header("Parcel Types")]
     public GameObject fragileParcel;
@@ -22,6 +26,10 @@ public class GameManager : MonoBehaviour
 
     [Header("Delivery Point types")]
     public GameObject deliveryPoint;
+
+    [Header("Enemy Types")]
+    public GameObject packageReaper;
+    public GameObject courierHunter;
 
 
 
@@ -35,6 +43,8 @@ public class GameManager : MonoBehaviour
         heavyParcel = Resources.Load<GameObject>("Prefabs/Packages/Heavy/Heavy");
         standardParcel = Resources.Load<GameObject>("Prefabs/Packages/Standard/Standard");
         deliveryPoint = Resources.Load<GameObject>("Prefabs/DeliveryPoints/DeliveryPoint");
+        courierHunter = Resources.Load<GameObject>("Prefabs/Enemies/CourierHunter/CourierHunter");
+        packageReaper = Resources.Load<GameObject>("Prefabs/Enemies/PackageReaper/PackageReaper");
 
         // Initial spawn
         Spawn(ChooseParcel());
@@ -77,8 +87,11 @@ public class GameManager : MonoBehaviour
             Spawn(deliveryPoint);
         }
 
-
-
+        if (currentEnemies < enemySpawnLimit && Time.time >= nextEnemySpawnTime)
+        {
+            SpawnEnemy();
+            nextEnemySpawnTime = Time.time + enemySpawnRate;
+        }
     }
 
     // Points to parkages or delivery points
@@ -133,6 +146,31 @@ public class GameManager : MonoBehaviour
     }
 
 
+    void SpawnEnemy()
+    {
+        GameObject enemyPrefab = ChooseEnemy();
+
+        if (Physics.Raycast(SpawnPosition(), Vector3.down, out RaycastHit hit))
+        {
+            Vector3 spawnPos = hit.point + Vector3.up * 0.5f;
+
+            GameObject enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+
+            currentEnemies++;
+
+            // Register death callback
+            EnemyHealth health = enemy.GetComponent<EnemyHealth>();
+            if (health != null)
+                health.onDeath += OnEnemyDeath;
+        }
+    }
+
+    void OnEnemyDeath()
+    {
+        currentEnemies--;
+    }
+
+
     // Randomly chooses wich package to spawn
     GameObject ChooseParcel()
     {
@@ -144,6 +182,19 @@ public class GameManager : MonoBehaviour
             1 => fragileParcel,
             2 => heavyParcel,
             _ => standardParcel,
+        };
+    }
+
+    // Randomly chooses wich enemy to spawn
+    GameObject ChooseEnemy()
+    {
+        int randomChoice = Random.Range(0, 2);
+
+        return randomChoice switch
+        {
+            0 => courierHunter,
+            1 => packageReaper,
+            _ => courierHunter,
         };
     }
 }

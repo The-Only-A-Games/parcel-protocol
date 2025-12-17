@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class EnemyHealth : MonoBehaviour
     public float health;
     public float maxHealth = 10;
     public Slider slider;
+    public Action onDeath;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -22,7 +24,7 @@ public class EnemyHealth : MonoBehaviour
     {
         if (health <= 0)
         {
-            Destroy(gameObject);
+            Die();
         }
     }
 
@@ -36,5 +38,11 @@ public class EnemyHealth : MonoBehaviour
     public float GetHealth()
     {
         return health;
+    }
+
+    void Die()
+    {
+        onDeath?.Invoke();
+        Destroy(gameObject);
     }
 }
