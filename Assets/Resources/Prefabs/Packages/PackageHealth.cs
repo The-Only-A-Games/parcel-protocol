@@ -44,4 +44,18 @@ public class PackageHealth : MonoBehaviour
     {
         return health;
     }
+
+
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bullet"))
+        {
+            if (other.GetComponent<ProjectileDamage>().tag == "Parcel")
+            {
+                TakeDamage(1);
+                Destroy(other.gameObject);
+            }
+        }
+    }
 }

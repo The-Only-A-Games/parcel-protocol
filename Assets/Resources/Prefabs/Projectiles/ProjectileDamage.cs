@@ -18,13 +18,13 @@ public class ProjectileDamage : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.CompareTag("Player") && tag == "Player")
         {
             GameObject player = collision.gameObject;
-            player.GetComponent<PlayerHealth>().TakeDamage(10);
+            player.GetComponent<PlayerHealth>().TakeDamage(1);
         }
 
-        if (collision.gameObject.tag == "Enemies")
+        if (collision.gameObject.CompareTag("Enemies") && tag == "Enemies")
         {
             Debug.Log("Enemy Hit");
         }

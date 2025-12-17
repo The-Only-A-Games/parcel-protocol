@@ -8,6 +8,8 @@ TagManager:
   - Parcel
   - Map
   - DeliveryPoint
+  - Enemies
+  - Bullet
   layers:
   - Default
   - TransparentFX
