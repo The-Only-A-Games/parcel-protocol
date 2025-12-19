@@ -9,11 +9,12 @@ public class DeliveryPoint : MonoBehaviour
 
     public Transform parcelPosition;
     public Transform parcel;
+    public GameManager gameManager;
     private string parcelName;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -31,6 +32,7 @@ public class DeliveryPoint : MonoBehaviour
         // Deliver parcel when delivery is reached
         if (elapsTime >= deliveryTime)
         {
+            DeliverScore();
             Destroy(gameObject);
         }
     }
@@ -70,5 +72,14 @@ public class DeliveryPoint : MonoBehaviour
     public void setDelivered(bool value)
     {
         delivered = value;
+    }
+
+    void DeliverScore()
+    {
+        if (parcelName == "Standard(Clone)") gameManager.score += 5;
+
+        if (parcelName == "Fragile(Clone)") gameManager.score += 10;
+
+        if (parcelName == "Heavy(Clone)") gameManager.score += 15;
     }
 }

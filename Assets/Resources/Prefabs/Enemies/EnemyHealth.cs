@@ -9,6 +9,7 @@ public class EnemyHealth : MonoBehaviour
     public float maxHealth = 10;
     public Slider slider;
     public Action onDeath;
+    public GameManager gameManager;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -17,6 +18,8 @@ public class EnemyHealth : MonoBehaviour
         health = maxHealth;
         slider.maxValue = maxHealth;
         slider.value = health;
+
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -42,6 +45,7 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
+        gameManager.score++;
         onDeath?.Invoke();
         Destroy(gameObject);
     }

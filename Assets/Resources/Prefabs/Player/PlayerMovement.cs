@@ -67,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
 
         energy = playerEnergy.GetEnergy();
 
+
         var lookPoint = LookTowardsMouse(out targetLookPosition);
         // Looks in the direction of the mouse point or position
         if (lookPoint)
@@ -74,6 +75,7 @@ public class PlayerMovement : MonoBehaviour
             targetLookPosition.y = transform.position.y;
             transform.LookAt(targetLookPosition);
         }
+
 
         Vector2 inputs = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         Vector3 direction = new Vector3(inputs.x, 0f, inputs.y);
@@ -127,7 +129,8 @@ public class PlayerMovement : MonoBehaviour
         targetVelocity = direction * newSpeed;
 
         // Smoothing out the direction change
-        velocity = Vector3.MoveTowards(velocity, targetVelocity, acceleration * Time.deltaTime);
+        // velocity = Vector3.MoveTowards(velocity, targetVelocity, acceleration * Time.deltaTime);
+        velocity = targetVelocity;
 
         ch.Move(velocity * Time.deltaTime);
         // playerEnergy.increaseEnergy();

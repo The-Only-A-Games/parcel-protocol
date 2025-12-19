@@ -5,11 +5,14 @@ TagManager:
   serializedVersion: 3
   tags:
   - PlayerHealth
+  - PlayerEnergy
+  - TrustBar
   - Parcel
   - Map
-  - DeliveryPoint
   - Enemies
+  - DeliveryPoint
   - Bullet
+  - GameManager
   layers:
   - Default
   - TransparentFX

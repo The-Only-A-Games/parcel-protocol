@@ -7,6 +7,7 @@ public class PackageHealth : MonoBehaviour
     public float health;
     public float maxHealth = 10;
     public Slider slider;
+    public GameManager gameManager;
 
     public GameObject player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -17,6 +18,7 @@ public class PackageHealth : MonoBehaviour
         slider.value = health;
 
         player = GameObject.FindGameObjectWithTag("Player");
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -28,7 +30,7 @@ public class PackageHealth : MonoBehaviour
             {
                 player.GetComponent<PickUp>().collected = false;
             }
-
+            gameManager.canvas.GetComponent<Trust>().LooseTrust(2);
             Destroy(gameObject);
         }
     }

@@ -25,7 +25,7 @@ public class HeavyPackage : ParcelEffect
         {
             if (player.GetComponent<PickUp>().collected)
             {
-                player.GetComponent<PlayerMovement>().setSpeedEffect(5);
+                player.GetComponent<PlayerMovement>().setSpeedEffect(10);
             }
             else
             {

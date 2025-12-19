@@ -31,6 +31,13 @@ public class GameManager : MonoBehaviour
     public GameObject packageReaper;
     public GameObject courierHunter;
 
+    [Header("UI Attributes")]
+    public int score = 0;
+
+    [Header("UI GameObjects and Components")]
+    public Canvas canvas;
+    public GameMenu gameMenu;
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -38,6 +45,9 @@ public class GameManager : MonoBehaviour
     {
 
         player = GameObject.FindGameObjectWithTag("Player");
+        canvas = FindAnyObjectByType<Canvas>();
+        if (canvas != null) gameMenu = canvas.GetComponent<GameMenu>();
+
         // Getting game objects
         fragileParcel = Resources.Load<GameObject>("Prefabs/Packages/Fragile/Fragile");
         heavyParcel = Resources.Load<GameObject>("Prefabs/Packages/Heavy/Heavy");
@@ -55,6 +65,9 @@ public class GameManager : MonoBehaviour
     {
         // Points at Target Point
         Pointer(targetPoint);
+
+        // Update Score
+        if (canvas != null) canvas.GetComponent<GameMenu>().SetScore(score);
 
         int findParcel = GameObject.FindGameObjectsWithTag("Parcel").Length;
         int findDeliveryPoints = GameObject.FindGameObjectsWithTag("DeliveryPoint").Length;
@@ -91,6 +104,12 @@ public class GameManager : MonoBehaviour
         {
             SpawnEnemy();
             nextEnemySpawnTime = Time.time + enemySpawnRate;
+        }
+
+
+        if (gameMenu.GetHealth() <= 0 || canvas.GetComponent<Trust>().GetTrust() <= 0)
+        {
+            gameMenu.GameOver();
         }
     }
 
