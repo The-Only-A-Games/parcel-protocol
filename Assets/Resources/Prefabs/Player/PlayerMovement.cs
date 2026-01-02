@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     public Camera camera;
     public PlayerHealth playerHealth;
     public PlayerEnergy playerEnergy;
+    public Animator animator;
     public bool energyInUse = false;
     private GameObject parcel;
 
@@ -80,6 +81,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 inputs = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         Vector3 direction = new Vector3(inputs.x, 0f, inputs.y);
 
+
         if (direction.magnitude > 1)
         {
             direction.Normalize();
@@ -107,18 +109,21 @@ public class PlayerMovement : MonoBehaviour
                 // can run
                 speed = runSpeed;
                 energyInUse = true;
+                // animator.SetBool("running", true);
             }
             else
             {
                 // energy drained WHILE holding
                 speed = walkSpeed;
                 energyInUse = false;
+                animator.SetBool("running", false);
             }
         }
         else // not holding Space
         {
             speed = walkSpeed;
             energyInUse = false;
+            animator.SetBool("running", false);
         }
 
         // Applying gravity
@@ -131,6 +136,12 @@ public class PlayerMovement : MonoBehaviour
         // Smoothing out the direction change
         // velocity = Vector3.MoveTowards(velocity, targetVelocity, acceleration * Time.deltaTime);
         velocity = targetVelocity;
+
+        // Controlling the animation
+        Vector3 horizontalVelocity = new Vector3(velocity.x, 0, velocity.z);
+        animator.SetFloat("speed", horizontalVelocity.magnitude);
+
+        animator.SetBool("running", speed == runSpeed && horizontalVelocity.magnitude > 0.1f);
 
         ch.Move(velocity * Time.deltaTime);
         // playerEnergy.increaseEnergy();

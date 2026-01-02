@@ -22,17 +22,15 @@ public class ProjectileDamage : MonoBehaviour
         {
             GameObject player = collision.gameObject;
             player.GetComponent<PlayerHealth>().TakeDamage(1);
-            Destroy(gameObject);
         }
 
         if (collision.gameObject.CompareTag("Enemies") && tag == "Enemies")
         {
             GameObject enemy = collision.gameObject;
             enemy.GetComponent<EnemyHealth>().TakeDamage(3);
-            Destroy(gameObject);
         }
 
-
+        Destroy(gameObject);
     }
 
     public void SetTag(string newTag)

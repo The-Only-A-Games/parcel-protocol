@@ -5,6 +5,7 @@ public class PlayerShoot : MonoBehaviour
     [Header("Gameobjects & Components")]
     public GameObject projectile;
     public Transform spawnPoint;
+    public Animator animator;
 
     public GameManager gameManager;
 
@@ -24,11 +25,16 @@ public class PlayerShoot : MonoBehaviour
 
     private void shoot()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !Input.GetKey(KeyCode.Space))
         {
             GameObject bullet = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
             bullet.GetComponent<ProjectileDamage>().SetTag("Enemies");
             bullet.GetComponent<MoveProjectile>().SetShoot(true);
+            animator.SetTrigger("shoot");
         }
+        // else
+        // {
+        //     animator.SetTrigger("shoot");
+        // }
     }
 }
