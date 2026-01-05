@@ -7,6 +7,7 @@ public class PackageFollow : MonoBehaviour
     public NavMeshAgent agent;
     public Transform player;
     public Transform parcel;
+    public Animator animator;
 
     [Header("Settings")]
     public float updateRate = 0.2f;   // How often to update destination
@@ -42,9 +43,20 @@ public class PackageFollow : MonoBehaviour
 
         // Keep enemy on ground (ignore target height)
         targetPos.y = transform.position.y;
+        float distance = Vector3.Distance(transform.position, player.position);
 
-        agent.stoppingDistance = stopDistance;
-        agent.SetDestination(targetPos);
+        // Move only if outside stopping distance
+        if (distance > stopDistance)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(targetPos);
+            animator.SetBool("chase", true);
+        }
+        else
+        {
+            agent.isStopped = true;
+            animator.SetBool("chase", false);
+        }
     }
 
     Transform GetChaseTarget()
