@@ -12,6 +12,7 @@ public class EnemyMovement : MonoBehaviour
     [Header("Components")]
     public CharacterController ch;
     public NavMeshAgent agent;
+    public Animator animator;
 
 
     [Header("Target")]
