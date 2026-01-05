@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "parcel-protocol.sln"
+    "dotnet.defaultSolution": "parcel-protocol.slnx"
 }

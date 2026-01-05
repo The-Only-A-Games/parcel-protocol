@@ -109,21 +109,21 @@ public class PlayerMovement : MonoBehaviour
                 // can run
                 speed = runSpeed;
                 energyInUse = true;
-                // animator.SetBool("running", true);
+                // animator.SetBool("isRunning", true);
             }
             else
             {
                 // energy drained WHILE holding
                 speed = walkSpeed;
                 energyInUse = false;
-                animator.SetBool("running", false);
+                animator.SetBool("isRunning", false);
             }
         }
         else // not holding Space
         {
             speed = walkSpeed;
             energyInUse = false;
-            animator.SetBool("running", false);
+            animator.SetBool("isRunning", false);
         }
 
         // Applying gravity
@@ -141,7 +141,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 horizontalVelocity = new Vector3(velocity.x, 0, velocity.z);
         animator.SetFloat("speed", horizontalVelocity.magnitude);
 
-        animator.SetBool("running", speed == runSpeed && horizontalVelocity.magnitude > 0.1f);
+        animator.SetBool("isRunning", speed == runSpeed && horizontalVelocity.magnitude > 0.1f);
 
         ch.Move(velocity * Time.deltaTime);
         // playerEnergy.increaseEnergy();
