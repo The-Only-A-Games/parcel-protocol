@@ -18,6 +18,7 @@ public class PlayerShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameManager == null) return;
         if (gameManager.canvas.GetComponent<GameMenu>().IsPaused) return;
 
         shoot();

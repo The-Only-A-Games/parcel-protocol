@@ -13,8 +13,12 @@ public class PlayerEnergy : MonoBehaviour
     void Start()
     {
         energy = maxEnergy;
-        slider.maxValue = maxEnergy;
-        slider.value = energy;
+
+        if (slider != null)
+        {
+            slider.maxValue = maxEnergy;
+            slider.value = energy;
+        }
     }
 
     // Update is called once per frame

@@ -55,7 +55,7 @@ public class PackageHealth : MonoBehaviour
         {
             if (other.GetComponent<ProjectileDamage>().tag == "Parcel")
             {
-                TakeDamage(1);
+                TakeDamage(2);
                 Destroy(other.gameObject);
             }
         }
