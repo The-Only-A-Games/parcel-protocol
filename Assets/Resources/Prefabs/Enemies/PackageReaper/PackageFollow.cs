@@ -43,7 +43,7 @@ public class PackageFollow : MonoBehaviour
 
         // Keep enemy on ground (ignore target height)
         targetPos.y = transform.position.y;
-        float distance = Vector3.Distance(transform.position, player.position);
+        float distance = Vector3.Distance(transform.position, targetPos);
 
         // Move only if outside stopping distance
         if (distance > stopDistance)
