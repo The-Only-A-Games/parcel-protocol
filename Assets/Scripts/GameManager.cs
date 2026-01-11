@@ -35,7 +35,8 @@ public class GameManager : MonoBehaviour
     public int score = 0;
 
     [Header("UI GameObjects and Components")]
-    public Canvas canvas;
+    [SerializeField] public Canvas canvas;
+
     public GameMenu gameMenu;
 
     [Header("Spawn Validation")]
@@ -45,7 +46,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        canvas = FindAnyObjectByType<Canvas>();
         if (canvas != null) gameMenu = canvas.GetComponent<GameMenu>();
 
         fragileParcel = Resources.Load<GameObject>("Prefabs/Packages/Fragile/Fragile");

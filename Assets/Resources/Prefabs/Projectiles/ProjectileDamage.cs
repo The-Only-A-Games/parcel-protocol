@@ -3,6 +3,7 @@ using UnityEngine;
 public class ProjectileDamage : MonoBehaviour
 {
     public string tag = "Enemies";
+    public AudioSource audioSource;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,12 +23,14 @@ public class ProjectileDamage : MonoBehaviour
         {
             GameObject player = collision.gameObject;
             player.GetComponent<PlayerHealth>().TakeDamage(1);
+            audioSource.Play();
         }
 
         if (collision.gameObject.CompareTag("Enemies") && tag == "Enemies")
         {
             GameObject enemy = collision.gameObject;
             enemy.GetComponent<EnemyHealth>().TakeDamage(4);
+            audioSource.Play();
         }
 
         Destroy(gameObject);

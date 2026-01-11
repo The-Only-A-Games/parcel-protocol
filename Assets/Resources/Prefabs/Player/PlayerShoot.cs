@@ -6,6 +6,7 @@ public class PlayerShoot : MonoBehaviour
     public GameObject projectile;
     public Transform spawnPoint;
     public Animator animator;
+    public AudioSource audioSource;
 
     public GameManager gameManager;
 
@@ -32,6 +33,7 @@ public class PlayerShoot : MonoBehaviour
             bullet.GetComponent<ProjectileDamage>().SetTag("Enemies");
             bullet.GetComponent<MoveProjectile>().SetShoot(true);
             animator.SetTrigger("shoot");
+            audioSource.Play();
         }
         // else
         // {
