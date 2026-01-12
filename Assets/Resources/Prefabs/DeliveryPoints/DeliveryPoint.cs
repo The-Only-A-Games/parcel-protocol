@@ -7,10 +7,13 @@ public class DeliveryPoint : MonoBehaviour
     private bool delivered = false;
 
 
+    public AudioSource audioSource;
     public Transform parcelPosition;
     public Transform parcel;
     public GameManager gameManager;
     private string parcelName;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -33,7 +36,7 @@ public class DeliveryPoint : MonoBehaviour
         if (elapsTime >= deliveryTime)
         {
             DeliverScore();
-            Destroy(gameObject);
+            DestroyObject();
         }
     }
 
@@ -74,12 +77,24 @@ public class DeliveryPoint : MonoBehaviour
         delivered = value;
     }
 
-    void DeliverScore()
+    public void DeliverScore()
     {
         if (parcelName == "Standard(Clone)") gameManager.score += 5;
 
         if (parcelName == "Fragile(Clone)") gameManager.score += 10;
 
         if (parcelName == "Heavy(Clone)") gameManager.score += 15;
+    }
+
+    void DestroyObject()
+    {
+        if (audioSource != null && audioSource.clip != null)
+        {
+            audioSource.transform.parent = null;
+            audioSource.Play();
+            Destroy(audioSource.gameObject, audioSource.clip.length);
+        }
+
+        Destroy(gameObject);
     }
 }

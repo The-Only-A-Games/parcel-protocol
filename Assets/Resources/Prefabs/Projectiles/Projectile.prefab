@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 8316493418990222277}
   - component: {fileID: 7588800607438335660}
   - component: {fileID: 7061478755700276040}
-  - component: {fileID: 6481379815721972338}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Bullet
@@ -35,7 +34,8 @@ Transform:
   m_LocalPosition: {x: -0.26683748, y: 1.48, z: 1.59}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.2}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7904572434781788545}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2373709081143852108
@@ -172,21 +172,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tag: Enemies
-  audioSource: {fileID: 6481379815721972338}
---- !u!82 &6481379815721972338
+  audioSource: {fileID: 3489611556171790845}
+--- !u!1 &8460652884317616556
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7904572434781788545}
+  - component: {fileID: 3489611556171790845}
+  m_Layer: 0
+  m_Name: HitSound
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7904572434781788545
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8460652884317616556}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.4849252, y: 0.49999952, z: 0.48985004}
+  m_LocalScale: {x: 10, y: 10, z: 5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3816304501506610100}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &3489611556171790845
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6616243219509900770}
+  m_GameObject: {fileID: 8460652884317616556}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 01df2ad4e34dca541a34d6ae7c22e9b5, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 1
+  m_PlayOnAwake: 1
+  m_Volume: 0.05
   m_Pitch: 1
   Loop: 0
   Mute: 0
